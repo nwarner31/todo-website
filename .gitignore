@@ -1,0 +1,7 @@
+# created by virtualenv automatically
+
+.idea
+.DS_Store
+todo-backend/venv
+__pycache__
+properties.py

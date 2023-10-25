@@ -1,0 +1,45 @@
+.background {
+    height: 100vh;
+    width:100vw;
+    background-color: yellow;
+    margin-left: -8px;
+    margin-top: -20px;
+}
+
+.contents {
+    margin: auto;
+}
+
+.home-page {
+    width: 200px;
+}
+
+.register-page {
+    width: 300px;
+}
+
+.todo-page {
+    width: 400px;
+}
+
+.link-button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    padding: 10px 15px;
+    border-radius: 5px;
+
+}
+
+.logout-button {
+    float: right;
+    margin-top: 10px;
+}
+
+.todo-header {
+    float: left;
+}
