@@ -16,6 +16,12 @@ registerForm.addEventListener("submit", (e) => {
             console.log(data);
             if (data.user) {
                 console.log("Have user");
+                const user = data.user;
+                sessionStorage.setItem("todos", JSON.stringify(data.todos));
+                delete user.todos;
+                sessionStorage.setItem("user", JSON.stringify(user));
+                sessionStorage.setItem("token", data.token);
+                window.location.href = "todo.html";
             } else {
                 alert("There was an error")
             }

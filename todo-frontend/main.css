@@ -4,22 +4,29 @@
     background-color: yellow;
     margin-left: -8px;
     margin-top: -20px;
+    padding-top: 150px;
 }
 
 .contents {
     margin: auto;
+    border: black solid 1px;
 }
 
 .home-page {
     width: 200px;
+    padding-bottom: 20px;
 }
 
 .register-page {
     width: 300px;
+    padding-top: 10px;
+    padding-bottom: 15px;
 }
 
 .todo-page {
     width: 400px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .link-button {
@@ -40,6 +47,40 @@
     margin-top: 10px;
 }
 
+.todo-head::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 .todo-header {
     float: left;
+}
+
+.todo-body {
+    margin-bottom: 15px;
+}
+
+.todo-item {
+    border-bottom: navy solid 2px;
+    margin-top: 3px;
+}
+
+.todo-item-image {
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    padding-right: 10px;
+}
+
+.todo-item-image-right {
+    float: right;
+}
+
+.todo-complete {
+    text-decoration: line-through;
+}
+
+.todo-incomplete {
+    font-weight: bolder;
 }

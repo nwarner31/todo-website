@@ -15,7 +15,10 @@ loginForm.addEventListener("submit", (e) => {
         }).then(data => {
             if(data.user) {
                 console.log(data.user);
-                sessionStorage.setItem("user", JSON.stringify(data.user));
+                const user = data.user;
+                sessionStorage.setItem("todos", JSON.stringify(user.todos));
+                delete user.todos;
+                sessionStorage.setItem("user", JSON.stringify(user));
                 sessionStorage.setItem("token", data.token);
                 window.location.href = "todo.html";
             } else {
@@ -25,3 +28,4 @@ loginForm.addEventListener("submit", (e) => {
         })
     }
 })
+

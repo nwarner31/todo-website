@@ -8,9 +8,23 @@
 <body>
     <div class="background">
         <div class="contents todo-page">
-            <h2 id="header" class="todo-header"></h2>
-            <button id="logoutButton"  class="link-button logout-button">Logout</button>
+            <div class="todo-head">
+                <h2 id="header" class="todo-header"></h2>
+                <button id="logoutButton"  class="link-button logout-button">Logout</button>
+            </div>
+             <div id="todoContainer" class="todo-body">
 
+            </div>
+            <form id="createTodo">
+                <div>
+                    <label>New ToDo Item: </label>
+                    <input id="newTodoName" type="text" />
+                </div>
+                <div>
+                    <button id="clearTodo" type="reset" class="link-button" >Clear</button>
+                    <button id="submitTodo" type="submit" class="link-button" >Submit</button>
+                </div>
+            </form>
         </div>
     </div>
 </body>

@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
 from blueprints.user import blp as user_blueprint
+from blueprints.todo import blp as todo_blueprint
 from db import db
 import properties
 
@@ -26,6 +27,8 @@ jwt = JWTManager(app)
 api = Api(app)
 
 api.register_blueprint(user_blueprint)
+api.register_blueprint(todo_blueprint)
+
 
 @app.route('/')
 def hello_world():  # put application's code here
