@@ -5,7 +5,7 @@
     <title>ToDo Website</title>
     <link rel="stylesheet" href="main.css">
 </head>
-<body>
+<body id="body">
     <div class="background">
         <div class="contents todo-page">
             <div class="todo-head">
@@ -16,11 +16,11 @@
 
             </div>
             <form id="createTodo">
-                <div>
+                <div class="todo-input">
                     <label>New ToDo Item: </label>
                     <input id="newTodoName" type="text" />
                 </div>
-                <div>
+                <div class="todo-button-container">
                     <button id="clearTodo" type="reset" class="link-button" >Clear</button>
                     <button id="submitTodo" type="submit" class="link-button" >Submit</button>
                 </div>

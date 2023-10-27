@@ -15,12 +15,14 @@
 .home-page {
     width: 200px;
     padding-bottom: 20px;
+    text-align: center;
 }
 
 .register-page {
     width: 300px;
     padding-top: 10px;
     padding-bottom: 15px;
+    text-align: center;
 }
 
 .todo-page {
@@ -42,9 +44,14 @@
 
 }
 
+.register-input-row {
+    margin-bottom: 10px;
+}
+
 .logout-button {
     float: right;
     margin-top: 10px;
+    margin-right: 10px;
 }
 
 .todo-head::after {
@@ -55,6 +62,7 @@
 
 .todo-header {
     float: left;
+    margin-left: 10px;
 }
 
 .todo-body {
@@ -71,6 +79,7 @@
     height: 30px;
     width: 30px;
     padding-right: 10px;
+    margin-left: 5px;
 }
 
 .todo-item-image-right {
@@ -83,4 +92,50 @@
 
 .todo-incomplete {
     font-weight: bolder;
+}
+
+.todo-input {
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.todo-button-container {
+    margin-top: 15px;
+    margin-left: 130px;
+}
+
+.modal-bg {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    opacity: 60%;
+    background-color: black;
+    left: 0;
+    top: 0;
+}
+
+.edit-modal {
+    height: 200px;
+    width: 300px;
+    background-color: white;
+    position: absolute;
+    left: 500px;
+    top:200px;
+    opacity: 100%;
+    padding-left: 8px;
+    padding-top: 40px;
+    text-align: center;
+}
+
+.edit-modal-button-section {
+    padding-left: 0px;
+    margin-top: 15px;
+}
+
+.edit-modal-cancel-button {
+    margin-right: 10px;
+}
+
+.edit-modal-button {
+    padding: 15px;
 }

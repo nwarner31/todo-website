@@ -90,7 +90,7 @@ function addTodoToPage(todo) {
                     row.classList.add("todo-incomplete");
                     image.setAttribute("src", "x.png");
                 }
-                
+
                 const index = todos.findIndex(item => item.id === data.id);
                 todos[index] = data;
                 sessionStorage.setItem("todos", JSON.stringify(todos));
@@ -135,8 +135,11 @@ function addTodoToPage(todo) {
     statusImage.classList.add("todo-item-image");
     container.appendChild(statusImage);
     // Todo Text
-    const todoText = document.createTextNode(todo.title);
+    const todoText = document.createElement("span");
+    todoText.id = `todo-${todo.id}-title`;
+    todoText.innerText = todo.title;
     container.appendChild(todoText);
+
     // Garbage Image
     const garbageImage = document.createElement("img");
     garbageImage.classList.add("todo-item-image");
@@ -148,6 +151,81 @@ function addTodoToPage(todo) {
 
     })
     container.appendChild(garbageImage);
+    // Edit Image
+    const editImage = document.createElement("img");
+    editImage.classList.add("todo-item-image");
+    editImage.classList.add("todo-item-image-right");
+    editImage.setAttribute("src", "edit.png");
+    editImage.addEventListener("click", (e) => {
+        e.preventDefault();
+        // Edit Modal
+        const modalBg = document.createElement("div");
+        modalBg.classList.add("modal-bg");
+        const editModal = document.createElement("div");
+        editModal.classList.add("edit-modal");
+        const editModalHeader = document.createElement("h2");
+        editModalHeader.innerText = "Edit Todo";
+        editModal.appendChild(editModalHeader);
+        const editInputDiv = document.createElement("div");
+        const editLabel = document.createElement("label");
+        editLabel.innerText = "ToDo Title: ";
+        const editInput = document.createElement("input");
+        editInput.setAttribute("id", "editInput");
+        editLabel.setAttribute("for", "editInput");
+        editInput.value = todo.title;
+        editInputDiv.appendChild(editLabel);
+        editInputDiv.appendChild(editInput);
+        editModal.appendChild(editInputDiv);
+        const editButtonDiv = document.createElement("div");
+        editButtonDiv.classList.add("edit-modal-button-section");
+        // Edit Modal: Cancel Button
+        const editCancelButton = document.createElement("button");
+        editCancelButton.classList.add("edit-modal-button");
+        editCancelButton.classList.add("edit-modal-cancel-button");
+        editCancelButton.innerText = "Cancel";
+        editCancelButton.addEventListener("click", (e) => {
+            modalBg.remove();
+            editModal.remove();
+        });
+        editButtonDiv.appendChild(editCancelButton);
+        // Edit Modal: Submit Button
+        const editSubmitButton = document.createElement("button");
+        editSubmitButton.classList.add("edit-modal-button");
+        editSubmitButton.innerText = "Submit";
+        editSubmitButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            // Check if the submitted value is the same as the old one
+            if (editInput.value !== todo.title) {
+                const body = JSON.stringify({title: editInput.value, is_complete: todo.is_complete});
+                fetch(`http://localhost:5000/todo/${todo.id}`, {method: "PUT", body,
+                    headers: {"Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`}}).then(response => {
+                            return response.json();
+                }).then(data => {
+                    if(data.title) {
+                        todoText.innerText = data.title;
+                        const index = todos.findIndex(item => item.id === data.id);
+                        todos[index] = data;
+                        sessionStorage.setItem("todos", JSON.stringify(todos));
+                    }
+
+                })
+            }
+            modalBg.remove();
+            editModal.remove();
+        })
+        editButtonDiv.appendChild(editSubmitButton);
+        editModal.appendChild(editButtonDiv);
+        modalBg.addEventListener("click", (e) => {
+           modalBg.remove();
+           editModal.remove();
+        });
+        const body = document.getElementById("body");
+        body.appendChild(modalBg);
+        body.appendChild(editModal);
+
+    })
+    container.appendChild(editImage);
     const todoHolder = document.getElementById("todoContainer");
     todoHolder.appendChild(container);
 }
