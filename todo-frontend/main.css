@@ -54,6 +54,22 @@
     margin-right: 10px;
 }
 
+.toast {
+    position: absolute;
+    left: 600px;
+    top: 250px;
+    padding: 20px;
+    max-width: 300px;
+}
+
+.green-toast {
+    background-color: lawngreen;
+}
+
+.red-toast {
+    background-color: red;
+}
+
 .todo-head::after {
     content: "";
     display: table;

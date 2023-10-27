@@ -4,9 +4,16 @@ loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const username = document.getElementById("username");
     const password = document.getElementById("password");
-
+    const errorToast = document.createElement("div");
+    const page = document.getElementById("body");
+    errorToast.classList.add("toast");
+    errorToast.classList.add("red-toast");
     if (username.value === "" || password.value === "") {
-        alert("Please enter a username and a password.");
+        errorToast.innerText = "Please enter a username and a password.";
+        page.appendChild(errorToast);
+        setTimeout(() => {
+            errorToast.remove();
+        }, 3000);
     } else {
         const body = JSON.stringify({username: username.value, password: password.value});
         fetch("http://localhost:5000/login", {method: "POST", body,
@@ -23,6 +30,11 @@ loginForm.addEventListener("submit", (e) => {
                 window.location.href = "todo.html";
             } else {
                 console.log(data);
+                errorToast.innerText = "There was a problem logging in";
+                page.appendChild(errorToast);
+                setTimeout(() => {
+                    errorToast.remove();
+                }, 3000);
             }
 
         })

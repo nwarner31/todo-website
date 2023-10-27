@@ -4,9 +4,16 @@ registerForm.addEventListener("submit", (e) => {
     e.preventDefault();
     let username = document.getElementById("username");
     let password = document.getElementById("password");
-
+    const page = document.getElementById("body");
+    const errorToast = document.createElement("div");
+    errorToast.classList.add("toast");
+    errorToast.classList.add("red-toast");
     if (username.value === "" || password.value.length < 6) {
-        alert("Please enter a valid username and password");
+        errorToast.innerText = "Please enter a username and a password of at least 6 characters long.";
+        page.appendChild(errorToast);
+        setTimeout(() => {
+            errorToast.remove();
+        }, 3000);
     } else {
         const body = JSON.stringify({username: username.value, password: password.value});
         fetch( "http://localhost:5000/register", {method: "POST", body,
@@ -23,7 +30,11 @@ registerForm.addEventListener("submit", (e) => {
                 sessionStorage.setItem("token", data.token);
                 window.location.href = "todo.html";
             } else {
-                alert("There was an error")
+                errorToast.innerText = "Username unavailable.";
+                page.appendChild(errorToast);
+                setTimeout(() => {
+                    errorToast.remove();
+                }, 3000);
             }
         })
     }

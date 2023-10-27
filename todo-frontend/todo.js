@@ -4,6 +4,8 @@ const todosJson = sessionStorage.getItem("todos");
 const todos = JSON.parse(todosJson);
 const token = sessionStorage.getItem("token");
 const newTodoName = document.getElementById("newTodoName");
+
+const body = document.getElementById("body");
 if (user === null) {
     window.location.href = "home.html";
 }
@@ -17,19 +19,31 @@ const logoutButton = document.getElementById("logoutButton");
 logoutButton.addEventListener("click", (e) => {
     e.preventDefault();
     console.log(token);
+
+    function logoutResponse() {
+        const logoutToast = document.createElement("div");
+        logoutToast.classList.add("toast");
+        logoutToast.classList.add("green-toast");
+        logoutToast.innerText = "You have logged out";
+        body.appendChild(logoutToast);
+        setTimeout(()=> {
+            logoutToast.remove();
+            sessionStorage.clear();
+            window.location.href = "home.html";
+        }, 3000);
+    }
+
     fetch("http://localhost:5000/logout", { method: "POST",
         headers: {"Content-Type": "application/json",
             "Authorization": `Bearer ${token}`}}).then(response => {
                 return response.json();
     }).then(data => {
         if (data.message) {
-            alert(data.message);
+            logoutResponse();
         }
-        sessionStorage.clear();
-        window.location.href = "home.html";
+
     }).catch(error => {
-        console.log(error);
-        alert(error);
+        logoutResponse();
     });
 
 });
@@ -48,7 +62,14 @@ const todoForm = document.getElementById("createTodo");
 todoForm.addEventListener("submit", (e) => {
     e.preventDefault();
     if (newTodoName.value === "") {
-        alert("Please enter a name for the ToDo item.");
+        const errorToast = document.createElement("div");
+        errorToast.classList.add("toast");
+        errorToast.classList.add("red-toast");
+        errorToast.innerText = "Please enter a name for the ToDo item.";
+        body.appendChild(errorToast);
+        setTimeout(() => {
+            errorToast.remove();
+        }, 3000);
     } else {
         const body = JSON.stringify({title: newTodoName.value, is_complete: false});
         fetch("http://localhost:5000/todo", {method: "POST", body,
@@ -149,7 +170,7 @@ function addTodoToPage(todo) {
         e.preventDefault();
         deleteTodo(todo);
 
-    })
+    });
     container.appendChild(garbageImage);
     // Edit Image
     const editImage = document.createElement("img");
@@ -194,8 +215,18 @@ function addTodoToPage(todo) {
         editSubmitButton.innerText = "Submit";
         editSubmitButton.addEventListener("click", (e) => {
             e.preventDefault();
+            if (editInput.value === "") {
+                const errorToast = document.createElement("div");
+                errorToast.classList.add("toast");
+                errorToast.classList.add("red-toast");
+                errorToast.innerText = "No name entered. Edit aborted";
+                body.appendChild(errorToast);
+                setTimeout(() => {
+                    errorToast.remove();
+                }, 3000);
+            }
             // Check if the submitted value is the same as the old one
-            if (editInput.value !== todo.title) {
+             else if (editInput.value !== todo.title) {
                 const body = JSON.stringify({title: editInput.value, is_complete: todo.is_complete});
                 fetch(`http://localhost:5000/todo/${todo.id}`, {method: "PUT", body,
                     headers: {"Content-Type": "application/json",
@@ -220,7 +251,6 @@ function addTodoToPage(todo) {
            modalBg.remove();
            editModal.remove();
         });
-        const body = document.getElementById("body");
         body.appendChild(modalBg);
         body.appendChild(editModal);
 
