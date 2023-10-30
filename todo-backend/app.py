@@ -19,9 +19,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = properties.db_conn
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["JWT_SECRET_KEY"] = properties.jwt_key
 
-db.init_app(app)
-with app.app_context():
-    db.create_all()
+
+
 
 jwt = JWTManager(app)
 api = Api(app)
@@ -36,4 +35,7 @@ def hello_world():  # put application's code here
 
 
 if __name__ == '__main__':
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()
     app.run(debug=True, port=5001)

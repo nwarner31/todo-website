@@ -21,7 +21,6 @@ class Login(MethodView):
     @blp.arguments(UserSchema)
     @blp.response(200, UserTokenSchema)
     def post(self, user_info):
-        print(user_info)
         password_bytes = (user_info["password"] + properties.pepper).encode("utf-8")
         try:
             user = UserModel.query.filter(UserModel.username == user_info["username"]).first()
@@ -51,7 +50,6 @@ class Register(MethodView):
     @blp.arguments(UserSchema)
     @blp.response(200, UserTokenSchema)
     def post(self, user_info):
-        print(user_info)
         password_bytes = (user_info["password"] + properties.pepper).encode("utf-8")
         salt = bcrypt.gensalt()
         hashed_password = bcrypt.hashpw(password_bytes, salt)

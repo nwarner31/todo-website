@@ -4,7 +4,7 @@ from flask import abort
 from flask_jwt_extended import jwt_required, get_jwt
 from sqlalchemy.exc import SQLAlchemyError
 
-from schemas.todo_schemas import ToDoSchema
+from schemas.todo_schemas import ToDoSchema, ToDoUpdateSchema
 from models.todos import ToDoModel
 from db import db
 
@@ -20,11 +20,10 @@ class Todos(MethodView):
         user_id = get_jwt()["sub"]
         if user_id:
             try:
-                print(todo_info)
                 todo = ToDoModel()
                 todo.user_id = user_id
                 todo.title = todo_info["title"]
-                todo.is_complete = todo_info["is_complete"]
+                todo.is_complete = todo_info["is_complete"] if "is_complete" in todo_info else False
                 db.session.add(todo)
                 db.session.commit()
                 return todo
@@ -36,14 +35,14 @@ class Todos(MethodView):
 
 @blp.route("/todo/<int:todo_id>")
 class Todo(MethodView):
-    @blp.arguments(ToDoSchema)
+    @blp.arguments(ToDoUpdateSchema)
     @blp.response(200, ToDoSchema)
     @jwt_required()
     def put(self, todo_info, todo_id):
         try:
             todo = ToDoModel.query.filter(ToDoModel.id == todo_id).first()
             user_id = get_jwt()["sub"]
-            if todo.user_id == user_id:
+            if todo and todo.user_id == user_id:
                 todo.title = todo_info["title"]
                 todo.is_complete = todo_info["is_complete"]
                 db.session.add(todo)
@@ -59,7 +58,7 @@ class Todo(MethodView):
         try:
             user_id = get_jwt()["sub"]
             todo = ToDoModel.query.filter(ToDoModel.id == todo_id).first()
-            if todo.user_id == user_id:
+            if todo and todo.user_id == user_id:
                 db.session.delete(todo)
                 db.session.commit()
                 return {"code": 200, "message": "ToDo deleted"}
